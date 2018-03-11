@@ -7,158 +7,19 @@
 <!DOCTYPE html>
 <html lang="zh">
     <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-        <meta name="description" content="">
-        <meta name="author" content="">
         <title>ShoppingCart</title>
-        <link  href="${contextPath}/resources/css/jquery-ui.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">        
-        <!--link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet"-->
-        <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
-        <script src="${contextPath}/resources/js/jquery-1.12.4.min.js"></script>
-        <script src="${contextPath}/resources/js/jquery-ui.js"></script>
-        <script src="${contextPath}/resources/js/jquery.validate.min.js"></script>
-        <!--script src="${contextPath}/resources/js/bootstrap.min.js"></script-->
-        <!-- Latest compiled and minified JavaScript -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
-        <script>
-
-            $(document).keyup(function (e) {
-                console.log("key up ##############")
-                if ($("#tourGuideID:focus") && (e.keyCode === 13)) {
-
-                    e.stopPropagation()
-                    e.preventDefault();
-
-                    // var pathname = window.location.pathname; // Returns path only
-                    var url = window.location.href;     // Returns full URL
-                    //var context = url.replace(pathname, '');
-                    var lastIndex = url.lastIndexOf("/");
-                    url = url.substr(0, lastIndex);
-                    url = url + '/querytourguide' + '?tourguideid=' + $('#tourGuideID').val();
-                    console.log(url);
-                    //context = localhost:8080/
-
-
-                    $.ajax({
-                        url: url,
-                        timeout: 100000,
-                        success: function (data) {
-                            console.log("SUCCESS: ", data);
-                            $('#tourGuideName').val(data.name + data.chineseName);
-                            $('#tourGuideID').val(data.tourguideid);
-                        },
-                        error: function (e) {
-                            console.log("ERROR: ", e);
-                        },
-                        done: function (e) {
-                            console.log("DONE");
-                        }
-                    });
-                }
-            });
-
-
-
-            function addURL(element)
-            {
-                $(element).attr('href', function () {
-                    return this.href
-                            + '&shopName=' + $('#shopName').val()
-                            + '&tourGuideName=' + $('#tourGuideName').val()
-                            + '&tourGuideID=' + $('#tourGuideID').val()
-                            + '&touristName=' + $('#touristName').val()
-                            + '&pickupDate=' + $('#pickupDate').val()
-                            + '&pickupTime=' + $('#pickupTime').val();
-
-                    ;
-                });
-            }
-
-            $(function () {
-                $("#pickupDate").datepicker({dateFormat: 'yy-mm-dd'});
-            });
-
-
-            $("#submit").click(function (event) {
-                if (!confirm("confirm  order"))
-                    event.preventDefault();
-            });
-
-            $(document).ready(function () {
-
-
-                /*
-                 $.validator.addMethod("valueNotEquals", function (value, element, arg) {
-                 return arg !== value;
-                 }, "Choose Apotheke");
-                 */
-                $('#shoppingcartform').validate({// initialize the plugin
-
-                    submitHandler: function (form) {
-                        if (confirm("Click Ok to Submit")) {
-                            form.submit();
-                        }
-                    },
-                    rules: {
-                        shopName: {
-                            required: true
-                        },
-
-                        pickupDate: {
-                            required: true
-                        },
-                        pickupTime: {
-                            required: true
-                        },
-                        tourGuideName: {
-                            required: true
-                        },
-                        tourGuideID: {
-                            required: true
-                        },
-                        touristName: {
-                            required: true
-                        }
-                    },
-
-                    messages: {
-
-                        shopName: {
-                            required: 'Please select the Apotheke'
-                        }
-                    }
-                });
-
-            });
-        </script>
-
-
     </head>
     <body>
         <div class="container">
 
-            <c:if test="${pageContext.request.userPrincipal.name != null}">
-                <form id="logoutForm" method="POST" action="${contextPath}/logout">
-                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                </form>
-
-                <h2>Welcome ${pageContext.request.userPrincipal.name} | <a onclick="document.forms['logoutForm'].submit()">Logout</a> | <a href="${contextPath}/welcome">Home</a></h2>
-
-            </c:if>
 
 
             <c:if test="${not empty sessionScope.shoppingCart.orders}">
-
-
                 <div class="form-group">
                     <form accept-charset="UTF-8"  method = "POST" action = "${contextPath}/shoppingcart" id="shoppingcartform">
                         <div class="col-12 col-sm-12 col-lg-12">
-                            <div class="table-responsive">
+                            <!--div class="table-responsive"-->
+                            <div style="overflow-x:auto;">
                                 <table class="table table-striped">
                                     <thead>
                                         <tr>
@@ -204,7 +65,8 @@
                         </div>
 
                         <div class="col-12 col-sm-12 col-lg-12">
-                            <div class="table-responsive">
+                            <!--div class="table-responsive"-->
+                            <div style="overflow-x:auto;">
                                 <table class="table table-striped">
                                     <thead>
                                         <tr>
@@ -245,15 +107,11 @@
                     </form>
                 </div>
             </div>
-
-
-
-
         </c:if>
-
-
-
-
     </div>
+
+
+    
+
 </body>
 </html>

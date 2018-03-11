@@ -7,105 +7,7 @@
 <!DOCTYPE html>
 <html lang="zh">
     <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-        <meta name="description" content="">
-        <meta name="author" content="">
-
         <title>OrderDetail</title>
-        <link  href="${contextPath}/resources/css/jquery-ui.css" rel="stylesheet">
-        <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
-        <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
-        <script src="${contextPath}/resources/js/jquery-1.12.4.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/0.9.0rc1/jspdf.min.js"></script>
-        <script src="${contextPath}/resources/js/jquery-ui.js"></script>
-        <script src="${contextPath}/resources/js/jquery.validate.min.js"></script>
-        <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
-
-        <script>
-            function confirmDelete(element) {
-
-                $(element).attr('href', function () {
-                    this.href = this.href
-                            + '&pzn=' + $('#pzn').val()
-                            + '&amount=' + $('#amount').val();
-                    ;
-                });
-
-                return confirm("Are you sure to delete this order?");
-
-            }
-
-            function confirmAdd(element) {
-
-                $(element).attr('href', function () {
-                    this.href = this.href
-                            + '&pzn=' + $('#pzn').val()
-                            + '&amount=' + $('#amount').val();
-                    ;
-                });
-
-                return confirm("Are you sure to add product for this order?");
-
-            }
-
-            function confirmRemove(element) {
-                $(element).attr('href', function () {
-                    this.href = this.href
-                            + '&pzn=' + $('#pzn').val()
-                            + '&amount=' + $('#amount').val();
-                    ;
-                });
-
-                return confirm("Are you sure to remove product for this order?");
-
-            }
-
-            $(function () {
-                var doc = new jsPDF();
-                var specialElementHandlers = {
-                    '#editor': function (element, renderer) {
-                        return true;
-                    }
-                };
-
-                $('#cmd').click(function () {
-                    console.log('it is called on click');
-                    doc.fromHTML($('#orderdetail').html(), 15, 15, {
-                        'width': 170,
-                        'elementHandlers': specialElementHandlers
-                    });
-                    doc.save('orderdetail.pdf');
-                });
-            });
-
-            $(document).ready(function(event) {
-                $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
-                  jqXHR.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
-                });
-
-                $('#sendmail-button').click(function() {
-                    $.ajax({
-                        type: 'post',
-                        url: "${contextPath}/orderdetailsendmail",
-                        dataType : 'json',
-                        data: {
-                            id: "${order.id}",
-                            ordernumber: "${order.orderNumber}"
-                        }
-                    }).done(function(response) {
-                        console.log(response);
-                        alert("Email sent successfully!");
-                    }).fail(function(response) {
-                        console.log(response);
-                        alert("Failed to send email!");
-                    });
-                });
-            });
-
-        </script>
     </head>
     <body>
         <div class="container">
@@ -215,5 +117,88 @@
             </div>
 
         </div>
+
+        <script type="text/javascript">
+            function confirmDelete(element) {
+
+                $(element).attr('href', function () {
+                    this.href = this.href
+                            + '&pzn=' + $('#pzn').val()
+                            + '&amount=' + $('#amount').val();
+                    ;
+                });
+
+                return confirm("Are you sure to delete this order?");
+
+            }
+
+            function confirmAdd(element) {
+
+                $(element).attr('href', function () {
+                    this.href = this.href
+                            + '&pzn=' + $('#pzn').val()
+                            + '&amount=' + $('#amount').val();
+                    ;
+                });
+
+                return confirm("Are you sure to add product for this order?");
+
+            }
+
+            function confirmRemove(element) {
+                $(element).attr('href', function () {
+                    this.href = this.href
+                            + '&pzn=' + $('#pzn').val()
+                            + '&amount=' + $('#amount').val();
+                    ;
+                });
+
+                return confirm("Are you sure to remove product for this order?");
+
+            }
+
+            $(function () {
+                var doc = new jsPDF();
+                var specialElementHandlers = {
+                    '#editor': function (element, renderer) {
+                        return true;
+                    }
+                };
+
+                $('#cmd').click(function () {
+                    console.log('it is called on click');
+                    doc.fromHTML($('#orderdetail').html(), 15, 15, {
+                        'width': 170,
+                        'elementHandlers': specialElementHandlers
+                    });
+                    doc.save('orderdetail.pdf');
+                });
+            });
+
+            $(document).ready(function (event) {
+                $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+                                    jqXHR.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
+                });
+
+                $('#sendmail-button').click(function () {
+                    $.ajax({
+                        type: 'post',
+                        url: "${contextPath}/orderdetailsendmail",
+                        dataType: 'json',
+                        data: {
+                            id: "${order.id}",
+                            ordernumber: "${order.orderNumber}"
+                        }
+                    }).done(function (response) {
+                        console.log(response);
+                        alert("Email sent successfully!");
+                    }).fail(function (response) {
+                        console.log(response);
+                        alert("Failed to send email!");
+                    });
+                });
+            });
+
+        </script>
     </body>
 </html>
