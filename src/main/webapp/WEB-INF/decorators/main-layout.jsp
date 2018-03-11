@@ -50,5 +50,6 @@
         <script type="text/javascript" src="<c:url value="/resources/js/jquery.validate.min.js" />"></script>
         <script type="text/javascript" src="<c:url value="/resources/js/bootstrap.min.js" />"></script>
         <script type="text/javascript" src="<c:url value="/resources/js/medshop.js" />"></script>
+        <decorator:getProperty property="page.local_script"></decorator:getProperty>
     </body>
 </html>

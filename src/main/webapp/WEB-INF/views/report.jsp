@@ -6,7 +6,7 @@
 
 <!DOCTYPE html>
 <html lang="zh">
-  
+
     <body>
         <div class="container">
             <div class="form-group">
@@ -79,46 +79,45 @@
             </div>
         </div>
     </div>
-
-    <script type="text/javascript">
-        $(function () {
-            $("#fromDate").datepicker({dateFormat: 'yy-mm-dd'});
-            $("#toDate").datepicker({dateFormat: 'yy-mm-dd'});
-        });
-
-        $("#submit").click(function (event) {
-            if (!confirm("confirm x order"))
-                event.preventDefault();
-        });
-
-        $(document).ready(function () {
-
-            $('#reportform').validate({// initialize the plugin
-
-                rules: {
-
-                    fromDate: {
-                        required: true
-                    },
-                    toDate: {
-                        required: true
-                    },
-                    report: {
-                        required: true
-                    }
-                },
-
-                messages: {
-
-                    shopName: {
-                        required: 'Please select the report'
-                    }
-                }
+    <content tag="local_script">
+        <script type="text/javascript">
+            $(function () {
+                $("#fromDate").datepicker({dateFormat: 'yy-mm-dd'});
+                $("#toDate").datepicker({dateFormat: 'yy-mm-dd'});
             });
 
-        });
-    </script>
+            $("#submit").click(function (event) {
+                if (!confirm("confirm x order"))
+                    event.preventDefault();
+            });
 
+            $(document).ready(function () {
 
+                $('#reportform').validate({// initialize the plugin
+
+                    rules: {
+
+                        fromDate: {
+                            required: true
+                        },
+                        toDate: {
+                            required: true
+                        },
+                        report: {
+                            required: true
+                        }
+                    },
+
+                    messages: {
+
+                        shopName: {
+                            required: 'Please select the report'
+                        }
+                    }
+                });
+
+            });
+        </script>
+    </content>
 </body>
 </html>
